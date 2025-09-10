@@ -253,7 +253,7 @@
         <h2>Customize Your Glove</h2>
 
         <!-- Palm Color Section -->
-        <div class="color-section" data-part="palm">
+<!--         <div class="color-section" data-part="palm">
           <h3>Palm Leather</h3>
           <div class="color-grid">
             <div
@@ -301,10 +301,10 @@
           </div>
           <p class="color-name">Ocean Mint</p>
         </div>
-
+ -->
         <!-- Fingers Color Section -->
         <div class="color-section" data-part="fingers">
-          <h3>Fingers and Back</h3>
+          <h3>Palm,Fingers and Back</h3>
           <div class="color-grid">
             <div
               class="color-swatch selected"
@@ -782,10 +782,9 @@
 
     gloveDisplay.innerHTML = gloveImg;
 
-    const partMapping = {
-      palm: [".st2", ".st5"],
+    const partMapping = { 
       back: [".st12", ".st13", ".st14", ".st15", ".st3", ".st6"],
-      fingers: [".st4"],
+      fingers: [".st4", ".st2", ".st5"],
       piping: [".st3", ".st6"],
       strap: [".st0"],
       logo: [".st5"],
@@ -999,3 +998,4 @@
       });
   </script>
 </html>
+
