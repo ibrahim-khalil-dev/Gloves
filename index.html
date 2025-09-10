@@ -243,7 +243,7 @@
       }
     </style>
   </head>
-  <body>
+  <body oncontextmenu="return false">
     <div class="container">
       <div class="glove-container">
         <div class="glove-display" id="gloves-display"></div>
@@ -529,10 +529,29 @@
         </button>
       </div>
     </div>
+  </body>
+  <script>
+    document.onkeypress = function (event) {
+      event = event || window.event;
+      if (event.keyCode == 123) {
+        return false;
+      }
+    };
+    document.onmousedown = function (event) {
+      event = event || window.event;
+      if (event.keyCode == 123) {
+        return false;
+      }
+    };
+    document.onkeydown = function (event) {
+      event = event || window.event;
+      if (event.keyCode == 123) {
+        return false;
+      }
+    };
 
-    <script>
-      const gloveDisplay = document.getElementById("gloves-display");
-      const gloveImg = `<?xml version="1.0" encoding="utf-8"?>
+    const gloveDisplay = document.getElementById("gloves-display");
+    const gloveImg = `<?xml version="1.0" encoding="utf-8"?>
             <!-- Generator: Adobe Illustrator 26.0.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
             <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                 viewBox="0 0 870.8 792" style="enable-background:new 0 0 870.8 792;" xml:space="preserve">
@@ -758,150 +777,151 @@
                     </g>
                 </g>
             </g>
-            </svg>`;
+            </svg>
+            `;
 
-      gloveDisplay.innerHTML = gloveImg;
+    gloveDisplay.innerHTML = gloveImg;
 
-      const partMapping = {
-        palm: [".st2", ".st5"],
-        back: [".st12", ".st13", ".st14", ".st15", ".st3", ".st6"],
-        fingers: [".st4"],
-        piping: [".st3", ".st6"],
-        strap: [".st0"],
-        logo: [".st5"],
-      };
+    const partMapping = {
+      palm: [".st2", ".st5"],
+      back: [".st12", ".st13", ".st14", ".st15", ".st3", ".st6"],
+      fingers: [".st4"],
+      piping: [".st3", ".st6"],
+      strap: [".st0"],
+      logo: [".st5"],
+    };
 
-      const colorNames = {
-        "#2C2C2C": "Midnight Black",
-        "#1E3A8A": "Royal Blue",
-        "#D2B48C": "Classic Tan",
-        "#1F2937": "Charcoal Gray",
-        "#991B1B": "Cardinal Red",
-        "#374151": "Storm Gray",
-        "#8B4513": "Saddle Brown",
-        "#EA580C": "Burnt Orange",
-        "#8FBC8F": "Ocean Mint",
-        "#2F3F5A": "Navy Blue",
-        "#E2E2E0": "Light Gray",
-        "#182A4B": "Dark Navy",
-        "#D7D7D4": "Silver Gray",
-      };
+    const colorNames = {
+      "#2C2C2C": "Midnight Black",
+      "#1E3A8A": "Royal Blue",
+      "#D2B48C": "Classic Tan",
+      "#1F2937": "Charcoal Gray",
+      "#991B1B": "Cardinal Red",
+      "#374151": "Storm Gray",
+      "#8B4513": "Saddle Brown",
+      "#EA580C": "Burnt Orange",
+      "#8FBC8F": "Ocean Mint",
+      "#2F3F5A": "Navy Blue",
+      "#E2E2E0": "Light Gray",
+      "#182A4B": "Dark Navy",
+      "#D7D7D4": "Silver Gray",
+    };
 
-      const setFill = (elements, color) => {
-        elements.forEach((el) => {
-          const current = el.getAttribute("style") || "";
-          const cleaned = current.replace(/fill:\s*[^;]+;?/i, "").trim();
-          el.setAttribute(
-            "style",
-            `${cleaned ? cleaned + "; " : ""}fill: ${color} !important`
-          );
-          el.setAttribute("fill", color);
-        });
-      };
+    const setFill = (elements, color) => {
+      elements.forEach((el) => {
+        const current = el.getAttribute("style") || "";
+        const cleaned = current.replace(/fill:\s*[^;]+;?/i, "").trim();
+        el.setAttribute(
+          "style",
+          `${cleaned ? cleaned + "; " : ""}fill: ${color} !important`
+        );
+        el.setAttribute("fill", color);
+      });
+    };
 
-      const setStroke = (elements, color) => {
-        elements.forEach((el) => {
-          const current = el.getAttribute("style") || "";
-          const cleaned = current.replace(/stroke:\s*[^;]+;?/i, "").trim();
-          el.setAttribute(
-            "style",
-            `${cleaned ? cleaned + "; " : ""}stroke: ${color} !important`
-          );
-          el.setAttribute("stroke", color);
-        });
-      };
+    const setStroke = (elements, color) => {
+      elements.forEach((el) => {
+        const current = el.getAttribute("style") || "";
+        const cleaned = current.replace(/stroke:\s*[^;]+;?/i, "").trim();
+        el.setAttribute(
+          "style",
+          `${cleaned ? cleaned + "; " : ""}stroke: ${color} !important`
+        );
+        el.setAttribute("stroke", color);
+      });
+    };
 
-      const colorSections = document.querySelectorAll(".color-section");
-      colorSections.forEach((section) => {
-        const swatches = section.querySelectorAll(".color-swatch");
-        const colorNameElement = section.querySelector(".color-name");
-        const part = section.getAttribute("data-part");
+    const colorSections = document.querySelectorAll(".color-section");
+    colorSections.forEach((section) => {
+      const swatches = section.querySelectorAll(".color-swatch");
+      const colorNameElement = section.querySelector(".color-name");
+      const part = section.getAttribute("data-part");
 
-        swatches.forEach((swatch) => {
-          swatch.addEventListener("click", () => {
-            const color = swatch.getAttribute("data-color");
+      swatches.forEach((swatch) => {
+        swatch.addEventListener("click", () => {
+          const color = swatch.getAttribute("data-color");
 
-            if (partMapping[part]) {
-              partMapping[part].forEach((selector) => {
-                const elements = document.querySelectorAll(selector);
-                if (part === "piping") {
-                  setStroke(Array.from(elements), color);
-                } else {
-                  setFill(Array.from(elements), color);
-                }
-              });
-            }
+          if (partMapping[part]) {
+            partMapping[part].forEach((selector) => {
+              const elements = document.querySelectorAll(selector);
+              if (part === "piping") {
+                setStroke(Array.from(elements), color);
+              } else {
+                setFill(Array.from(elements), color);
+              }
+            });
+          }
 
-            section
-              .querySelectorAll(".color-swatch")
-              .forEach((s) => s.classList.remove("selected"));
-            swatch.classList.add("selected");
+          section
+            .querySelectorAll(".color-swatch")
+            .forEach((s) => s.classList.remove("selected"));
+          swatch.classList.add("selected");
 
-            colorNameElement.textContent = colorNames[color] || "Custom Color";
-          });
+          colorNameElement.textContent = colorNames[color] || "Custom Color";
         });
       });
+    });
 
-      if (window.emailjs) {
-        emailjs.init("m07UVxuYcVU4FHGLQ");
-      }
+    if (window.emailjs) {
+      emailjs.init("m07UVxuYcVU4FHGLQ");
+    }
 
-      document
-        .querySelector(".submit-button")
-        .addEventListener("click", async () => {
-          const userEmailInput = document.getElementById("user-email");
-          const userEmail = userEmailInput.value.trim();
+    document
+      .querySelector(".submit-button")
+      .addEventListener("click", async () => {
+        const userEmailInput = document.getElementById("user-email");
+        const userEmail = userEmailInput.value.trim();
 
-          if (!userEmail) {
-            alert(
-              "Please enter your email address before sending the customization."
-            );
-            userEmailInput.focus();
-            return;
+        if (!userEmail) {
+          alert(
+            "Please enter your email address before sending the customization."
+          );
+          userEmailInput.focus();
+          return;
+        }
+
+        if (!userEmail.includes("@") || !userEmail.includes(".")) {
+          alert("Please enter a valid email address.");
+          userEmailInput.focus();
+          return;
+        }
+
+        const customization = {};
+        colorSections.forEach((section) => {
+          const part = section.getAttribute("data-part");
+          const selectedSwatch = section.querySelector(
+            ".color-swatch.selected"
+          );
+          const colorNameElement = section.querySelector(".color-name");
+
+          if (selectedSwatch && colorNameElement) {
+            const colorValue = selectedSwatch.getAttribute("data-color");
+            const colorName = colorNameElement.textContent;
+
+            customization[part] = {
+              color: colorValue,
+              name: colorName,
+            };
           }
+        });
 
-          if (!userEmail.includes("@") || !userEmail.includes(".")) {
-            alert("Please enter a valid email address.");
-            userEmailInput.focus();
-            return;
-          }
+        const svgElement = document.querySelector("#gloves-display svg");
+        const svgString = svgElement
+          ? svgElement.outerHTML
+          : "SVG not available";
 
-          const customization = {};
-          colorSections.forEach((section) => {
-            const part = section.getAttribute("data-part");
-            const selectedSwatch = section.querySelector(
-              ".color-swatch.selected"
-            );
-            const colorNameElement = section.querySelector(".color-name");
-
-            if (selectedSwatch && colorNameElement) {
-              const colorValue = selectedSwatch.getAttribute("data-color");
-              const colorName = colorNameElement.textContent;
-
-              customization[part] = {
-                color: colorValue,
-                name: colorName,
-              };
-            }
-          });
-
-          const svgElement = document.querySelector("#gloves-display svg");
-          const svgString = svgElement
-            ? svgElement.outerHTML
-            : "SVG not available";
-
-          const emailContent = `
+        const emailContent = `
                 Baseball Glove Customization Details:
 
                 Palm Leather: ${customization.palm?.name || "Not selected"} (${
-            customization.palm?.color || "N/A"
-          })
+          customization.palm?.color || "N/A"
+        })
                 Back Shell: ${customization.back?.name || "Not selected"} (${
-            customization.back?.color || "N/A"
-          })
+          customization.back?.color || "N/A"
+        })
                 Fingers: ${customization.fingers?.name || "Not selected"} (${
-            customization.fingers?.color || "N/A"
-          })
+          customization.fingers?.color || "N/A"
+        })
                 Piping & Stitching: ${
                   customization.piping?.name || "Not selected"
                 } (${customization.piping?.color || "N/A"})
@@ -909,77 +929,73 @@
                   customization.strap?.name || "Not selected"
                 } (${customization.strap?.color || "N/A"})
                 Logo Area: ${customization.logo?.name || "Not selected"} (${
-            customization.logo?.color || "N/A"
-          })
+          customization.logo?.color || "N/A"
+        })
 
                 Customization completed on: ${new Date().toLocaleString()}  `;
 
-          const recipients = [
-            { email: userEmail, template: "template_fortrho" }, // User gets template 1
-            { email: "maazkhan35700@gmail.com", template: "template_yw7dwci" }, // Owner gets template 2
-          ];
+        const recipients = [
+          { email: userEmail, template: "template_yw7dwci" }, // User gets template 1
+          { email: "maazkhan35700@gmail.com", template: "template_fortrho" }, // Owner gets template 2
+        ];
 
-          let successCount = 0;
-          let failCount = 0;
+        let successCount = 0;
+        let failCount = 0;
 
-          try {
-            if (window.emailjs) {
-              // Send email to each recipient with their specific template
-              for (const recipient of recipients) {
-                const emailParams = {
-                  to: recipient.email,
-                  email: recipient.email,
-                  subject: `Baseball Glove Customization - ${new Date().toLocaleDateString()}`,
-                  message: emailContent,
-                  from_name: "Mitt Maker Pro",
-                  from_email: "noreply@mittmakerpro.com",
-                  svg_data: svgString.substring(0, 1000) + "...",
-                };
+        try {
+          if (window.emailjs) {
+            // Send email to each recipient with their specific template
+            for (const recipient of recipients) {
+              const emailParams = {
+                to: recipient.email,
+                email: recipient.email,
+                subject: `Baseball Glove Customization - ${new Date().toLocaleDateString()}`,
+                message: emailContent,
+                from_email: "noreply@mittmakerpro.com",
+                svg_data: svgString,
+              };
 
-                try {
-                  const response = await emailjs.send(
-                    "service_2fmb6kg",
-                    recipient.template,
-                    emailParams
-                  );
-                  console.log(
-                    `Email sent successfully to ${recipient.email} using ${recipient.template}:`,
-                    response
-                  );
-                  successCount++;
-                } catch (error) {
-                  console.error(
-                    `Failed to send email to ${recipient.email}:`,
-                    error
-                  );
-                  failCount++;
-                }
-              }
-
-              // Show appropriate success/failure message
-              if (successCount === recipients.length) {
-                alert(
-                  `✅ Customization emailed successfully!\n\nConfirmation sent to: ${userEmail}\nOrder details sent to: ggxehc@gmail.com\n\n${emailContent}`
+              try {
+                const response = await emailjs.send(
+                  "service_2fmb6kg",
+                  recipient.template,
+                  emailParams
                 );
-              } else if (successCount > 0) {
-                alert(
-                  `⚠️ Partially successful: ${successCount} of ${recipients.length} emails sent.\n\n${emailContent}`
+                console.log(
+                  `Email sent successfully to ${recipient.email} using ${recipient.template}:`,
+                  response
                 );
-              } else {
-                throw new Error("All emails failed to send");
+                successCount++;
+              } catch (error) {
+                console.error(
+                  `Failed to send email to ${recipient.email}:`,
+                  error
+                );
+                failCount++;
               }
-            } else {
-              throw new Error("EmailJS not loaded");
             }
-          } catch (error) {
-            console.error("Email sending failed:", error);
-            alert(
-              `⚠️ Email sending failed, but here's your customization:\n\n${emailContent}\n\nIntended recipients: ${userEmail} and ggxehc@gmail.com`
-            );
+
+            // Show appropriate success/failure message
+            if (successCount === recipients.length) {
+              alert(
+                `✅ Customization emailed successfully!\n\nConfirmation sent to: ${userEmail}\nOrder details sent to: ggxehc@gmail.com\n\n${emailContent}`
+              );
+            } else if (successCount > 0) {
+              alert(
+                `⚠️ Partially successful: ${successCount} of ${recipients.length} emails sent.\n\n${emailContent}`
+              );
+            } else {
+              throw new Error("All emails failed to send");
+            }
+          } else {
+            throw new Error("EmailJS not loaded");
           }
-        });
-    </script>
-  </body>
+        } catch (error) {
+          console.error("Email sending failed:", error);
+          alert(
+            `⚠️ Email sending failed, but here's your customization:\n\n${emailContent}\n\nIntended recipients: ${userEmail} and ggxehc@gmail.com`
+          );
+        }
+      });
+  </script>
 </html>
-
-
