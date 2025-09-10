@@ -951,7 +951,7 @@
                 email: recipient.email,
                 subject: `Baseball Glove Customization - ${new Date().toLocaleDateString()}`,
                 message: emailContent,
-                from_email: "noreply@mittmakerpro.com",
+                from_email: "noreply@gloves.com",
                 svg_data: svgString,
               };
 
@@ -997,21 +997,5 @@
           );
         }
       });
-    <script> 
-   
-  document.addEventListener("keydown", (e) => {
-    if (
-      e.key === "F12" ||
-      (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "i") ||
-      (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "c") ||
-      (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "j") ||
-      (e.ctrlKey && e.key.toLowerCase() === "u")
-    ) {
-      e.preventDefault();
-    }
-  });
-</script>
-
   </script>
 </html>
-
